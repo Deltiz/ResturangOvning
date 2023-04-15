@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        
+        background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/Resturang/img/Skärmavbild\ 2023-04-14\ kl.\ 23.13.30.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-size: 85vh 85vh;
+        background-position: center center;
+        height: 85vh;
+       
+      }
+      .background {
+        background-position: center center;
+        height: 100vh;
+        width: 97vh;
+        border: 3px solid black;
+        border-radius: 40px;
+        margin: 4rem auto;
+        position: relative;
+        box-shadow: 1px 1px 55px rgb(16, 12, 12);
+        overflow: hidden;
+        
+      }
+      .button {
+        position: absolute;
+       
+      }
+      button{
+        background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+      }
+      .toggled {
+    background-image:  linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  }
+  footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 10px;
+        background-image:  linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+        box-shadow: 1px 1px 100px rgb(74, 134, 213);
+       
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+        <footer id="boka"></footer>
+    </div>
+  
+
+    <script>
+      // Add a click event listener to the document
+      document.addEventListener("click", function(event) {
+        // Get the click coordinates
+        var x = event.clientX;
+        var y = event.clientY;
+
+        // Output the click coordinates in the console
+        console.log("Clicked coordinates: (" + x + ", " + y + ")");
+      });
+
+      // Array of button coordinates
+      var buttonCoordinates = [
+        [207, 237],
+        [155, 292],
+        [207, 347],
+        [155, 423],
+        [214, 479],
+        [155, 542],
+        [359, 600],
+        [155, 645],
+        // Add more coordinates for the remaining buttons
+      ];
+
+      // Array of button properties (width, height, and border-radius)
+      var buttonProperties = [
+        [49, 38, 100],
+        [49, 38, 75],
+        [49, 38, 100],
+        [49, 38, 75],
+        [49, 38, 100],
+        [49, 38, 75],
+        [49, 55, 10],
+        [49, 55, 10],
+
+        // Add more properties for the remaining buttons
+      ];
+
+      // Function to create and position buttons
+      function createButtons() {
+        var background = document.querySelector(".background");
+
+        for (var i = 0; i < buttonCoordinates.length; i++) {
+          var buttonDiv = document.createElement("div");
+          buttonDiv.classList.add("button");
+          buttonDiv.style.left = buttonCoordinates[i][0] + "px";
+          buttonDiv.style.top = buttonCoordinates[i][1] + "px";
+          
+          background.appendChild(buttonDiv);
+
+          var button = document.createElement("button");
+          button.innerText = i + 1;
+          button.setAttribute("id", "button" + (i + 1));
+          button.textContent = i + 1;
+          button.style.width = buttonProperties[i][0] + "px";
+          button.style.height = buttonProperties[i][1] + "px";
+          button.style.borderRadius = buttonProperties[i][2] + "px";
+          button.style.borderRadius = buttonProperties[i][2] + "px";
+          buttonDiv.appendChild(button);
+          console.log(button);
+          button.addEventListener("click",onButtonClick);
+         
+        }
+        function onButtonClick(event) {
+  const mybutton = event.target;
+  
+  if (mybutton.classList.contains("toggled")) {
+    mybutton.classList.remove("toggled");
+    alert("Bord " + mybutton.textContent + " avallokerat");
+    footer.innerHTML = "";
+  } else {
+    mybutton.classList.add("toggled");
+    const footer = document.getElementById("boka");
+    footer.innerHTML = "";
+    
+    const p = document.createElement("p");
+    p.innerHTML = "Bord " + mybutton.textContent;
+    footer.appendChild(p);
+    
+    const myInput = document.createElement("input");
+    myInput.setAttribute("type", "text");
+    myInput.setAttribute("id", "input");
+    myInput.setAttribute("value", "Namn: ");
+    footer.appendChild(myInput);
+
+    const send = document.createElement("button");
+    send.id = "send";
+    send.textContent = "Send";
+    footer.appendChild(send);
+    send.addEventListener("click", function() {
+          const confirmMessage = "Do you want to book table " + mybutton.textContent + " for " + myInput.value + "?";
+          if (confirm(confirmMessage)) {
+            alert("Table " + mybutton.textContent + " booked for " + myInput.value);
+            footer.innerHTML = "";
+          } else {
+            confirm("Booking cancelled");
+          }
+        });
+  }
+}
+      }
+
+      // Create and position buttons
+      createButtons();
+    </script>
+  </body>
+</html>
